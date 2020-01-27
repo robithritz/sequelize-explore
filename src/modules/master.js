@@ -126,5 +126,33 @@ module.exports = {
             console.log(err);
             return { status: -1 };
         }
+    },
+
+    karyawanGroupByDepartment: async (data) => {
+        try {
+            const result = await MasterKaryawan.findAll({
+                attributes: [
+                    [Sequelize.fn('COUNT', Sequelize.col('master_karyawan.dept_id')), 'total'],
+                    [Sequelize.col('master_department.dept_name'), 'deputy']
+                ],
+                where: {
+                    status_id: 1
+                },
+                include: [{
+                    model: MasterDepartment,
+                    attributes: [],
+                    where: {
+                        status_id: 1
+                    },
+                    required: false
+                }],
+                group: ['master_karyawan.dept_id', 'master_department.dept_name']
+            });
+
+            return { status: 1,result: result }; 
+        }catch(err) {
+            console.log(err);
+            return { status: -1 };
+        }
     }
 }
