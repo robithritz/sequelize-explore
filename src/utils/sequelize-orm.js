@@ -104,6 +104,55 @@ MasterJabatan.hasOne(MasterStaffType, {
 })
 
 
+
+
+
+/* mas mirza challenge  */
+const TableContract = sequelize.define('mirza_contract', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    id_contract: DataTypes.INTEGER,
+    nama: DataTypes.STRING,
+    type_id: DataTypes.INTEGER,
+    start_date: DataTypes.DATE,
+    end_date: DataTypes.DATE,
+    status_id: {
+        type: DataTypes.INTEGER,
+        defaultValue: 1
+    },
+    created_at: {
+        type: DataTypes.DATE,
+        defaultValue: Sequelize.fn('now')
+    }
+}, {freezeTableName: true, timestamps: false});
+
+const ContractType = sequelize.define('mirza_contract_type', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    type_id: DataTypes.INTEGER,
+    name: DataTypes.STRING,
+    status_id: {
+        type: DataTypes.INTEGER,
+        defaultValue: 1
+    },
+    created_at: {
+        type: DataTypes.DATE,
+        defaultValue: Sequelize.fn('now')
+    }
+}, {freezeTableName: true, timestamps: false});
+
+TableContract.hasOne(ContractType, {
+    sourceKey: 'type_id',
+    foreignKey: 'type_id'
+})
+
+
 async function initializeDB() {
     return await sequelize.sync();
 }
@@ -113,5 +162,7 @@ module.exports = {
     MasterKaryawan: MasterKaryawan,
     MasterDepartment: MasterDepartment,
     MasterJabatan: MasterJabatan,
-    MasterStaffType: MasterStaffType
+    MasterStaffType: MasterStaffType,
+    TableContract: TableContract,
+    ContractType: ContractType
 }

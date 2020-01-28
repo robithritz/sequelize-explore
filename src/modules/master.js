@@ -1,4 +1,4 @@
-const { MasterKaryawan, MasterDepartment, MasterJabatan, MasterStaffType } = require('../utils/sequelize-orm');
+const { MasterKaryawan, MasterDepartment, MasterJabatan, MasterStaffType, ContractType, TableContract } = require('../utils/sequelize-orm');
 const { Sequelize } = require('sequelize');
 
 
@@ -176,6 +176,41 @@ module.exports = {
                     required: false
                 }],
                 order: [[Sequelize.literal('npk')], ['created_at', 'DESC']]
+            });
+
+            return { status: 1,result: result }; 
+        }catch(err) {
+            console.log(err);
+            return { status: -1 };
+        }
+    },
+
+
+
+    /* MIRZA CHALLENGE*/
+
+    contractLastEachEmployee: async (data) => {
+        try {
+            const result = await TableContract.findAll({
+                raw: true,
+                attributes: [
+                    Sequelize.literal(`DISTINCT ON(nama) nama`),
+                    'id_contract',
+                    'start_date',
+                    'end_date',
+                    'type_id',
+                    [Sequelize.col('mirza_contract_type.name'), 'type_name']
+                ],
+                where: {
+                    status_id: 1,
+                    '$mirza_contract_type.type_id$': 1
+                },
+                include: [{
+                    model: ContractType,
+                    attributes: [],
+                    
+                }],
+                order: [[Sequelize.col('nama')], ['start_date', 'DESC']]
             });
 
             return { status: 1,result: result }; 

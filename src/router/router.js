@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { insertMasterKaryawan, karyawanNoJoin, karyawanJoinOne, karyawanNestedJoin, karyawanGroupByDepartment, karyawanDistinctNPK } = require('../modules/master');
+const { insertMasterKaryawan, karyawanNoJoin, karyawanJoinOne, karyawanNestedJoin, karyawanGroupByDepartment, karyawanDistinctNPK, contractLastEachEmployee } = require('../modules/master');
 
 
 router.post('/karyawan', async (req, res) => {
@@ -50,4 +50,14 @@ router.get('/karyawan/distinct-npk', async (req, res) => {
     res.json(result);
 });
 
+
+/* MIRZA CHALLENGE */
+
+router.get('/contract/last-each-employee', async (req, res) => {
+    console.log(req.query);
+
+    const result = await contractLastEachEmployee(req.query);
+
+    res.json(result);
+});
 module.exports = router;
