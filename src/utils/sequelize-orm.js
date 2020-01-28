@@ -1,4 +1,4 @@
-const { Sequelize, Model, DataTypes, Op } = require('sequelize');
+const { Sequelize, DataTypes, Op } = require('sequelize');
 const sequelize = new Sequelize({
     database: process.env.DB_NAME || 'sequelize-explore-db',
     host: process.env.DB_HOST || 'localhost',

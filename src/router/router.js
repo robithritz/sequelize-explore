@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { insertMasterKaryawan, karyawanNoJoin, karyawanJoinOne, karyawanNestedJoin, karyawanGroupByDepartment } = require('../modules/master');
+const { insertMasterKaryawan, karyawanNoJoin, karyawanJoinOne, karyawanNestedJoin, karyawanGroupByDepartment, karyawanDistinctNPK } = require('../modules/master');
 
 
 router.post('/karyawan', async (req, res) => {
@@ -38,6 +38,14 @@ router.get('/karyawan/group-by', async (req, res) => {
     console.log(req.query);
 
     const result = await karyawanGroupByDepartment(req.query);
+
+    res.json(result);
+});
+
+router.get('/karyawan/distinct-npk', async (req, res) => {
+    console.log(req.query);
+
+    const result = await karyawanDistinctNPK(req.query);
 
     res.json(result);
 });

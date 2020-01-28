@@ -154,5 +154,34 @@ module.exports = {
             console.log(err);
             return { status: -1 };
         }
+    },
+
+    karyawanDistinctNPK: async (data) => {
+        try {
+            const result = await MasterKaryawan.findAll({
+                raw: true,
+                attributes: [
+                    Sequelize.literal(`DISTINCT ON("npk") npk`),
+                    'name',
+                ],
+                where: {
+                    status_id: 1
+                },
+                include: [{
+                    model: MasterDepartment,
+                    attributes: [],
+                    where: {
+                        status_id: 1
+                    },
+                    required: false
+                }],
+                order: [[Sequelize.literal('npk')], ['created_at', 'DESC']]
+            });
+
+            return { status: 1,result: result }; 
+        }catch(err) {
+            console.log(err);
+            return { status: -1 };
+        }
     }
 }
