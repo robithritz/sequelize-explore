@@ -81,8 +81,11 @@ module.exports = {
 
     karyawanNestedJoin: async (data) => {
         try {
+            // const result = await MasterKaryawan.findAndCountAll ({
             const result = await MasterKaryawan.findAll({
                 raw: true,
+                // limit: 1,
+                // offset: 0,
                 where: {
                     status_id: 1
                 },
